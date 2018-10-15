@@ -8,14 +8,13 @@ import csv
 ###############################################################################
 
 # definiratje URL glavne strani bolhe za oglase z mačkami
-cats_frontpage_url = 'TODO'
+cats_frontpage_url = 'http://www.bolha.com/zivali/male-zivali/macke'
 # mapa, v katero bomo shranili podatke
-cat_directory = 'TODO'
+cat_directory = 'my_cats'
 # ime datoteke v katero bomo shranili glavno stran
-frontpage_filename = 'TODO'
+frontpage_filename = 'cats_fp.html'
 # ime CSV datoteke v katero bomo shranili podatke
-csv_filename = 'TODO'
-
+csv_filename = 'cats.csv'
 
 def download_url_to_string(TODO):
     '''This function takes a URL as argument and tries to download it
