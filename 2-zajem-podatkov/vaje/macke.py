@@ -1,4 +1,5 @@
 import requests
+import sys
 import re
 import os
 import csv
@@ -45,13 +46,12 @@ def save_string_to_file(text, directory, filename):
 
 # Definirajte funkcijo, ki prenese glavno stran in jo shrani v datoteko.
 
-
-def save_frontpage(cats_frontpage_url, frontpage_filename):
+def save_frontpage():
     '''Save "cats_frontpage_url" to the file
     "cat_directory"/"frontpage_filename"'''
     x = download_url_to_string(cats_frontpage_url)
-    save_string_to_file(x, cat_directory, frontpage_filename)
-    return TODO
+    save_string_to_file(x.text, cat_directory, frontpage_filename)
+    return 'ratalu'
 
 ###############################################################################
 # Po pridobitvi podatkov jih želimo obdelati.
@@ -60,7 +60,9 @@ def save_frontpage(cats_frontpage_url, frontpage_filename):
 
 def read_file_to_string(directory, filename):
     '''Return the contents of the file "directory"/"filename" as a string.'''
-    return TODO
+    path = os.path.join(directory, filename)
+    with open(path, encoding='utf-8') as d:
+        return d.read()
 
 # Definirajte funkcijo, ki sprejme niz, ki predstavlja vsebino spletne strani,
 # in ga razdeli na dele, kjer vsak del predstavlja en oglas. To storite s
