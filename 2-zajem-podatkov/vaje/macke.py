@@ -16,18 +16,21 @@ frontpage_filename = 'cats_fp.html'
 # ime CSV datoteke v katero bomo shranili podatke
 csv_filename = 'cats.csv'
 
-def download_url_to_string(TODO):
+def download_url_to_string(url):
     '''This function takes a URL as argument and tries to download it
     using requests. Upon success, it returns the page contents as string.'''
     try:
         # del kode, ki morda sproži napako
-        return TODO
-    except 'TODO':
+        print('Shranjujem {} ...'.format(url), end='')
+        sys.stdout.flush()
+        r = requests.get(url)
+        return r
+    except requests.exceptions.ConnectionError:
+        print('stran ne obstaja!')
         # koda, ki se izvede pri napaki
         # dovolj je če izpišemo opozorilo in prekinemo izvajanje funkcije
-        return TODO
     # nadaljujemo s kodo če ni prišlo do napake
-    return TODO
+    return r
 
 
 def save_string_to_file(text, directory, filename):
@@ -43,9 +46,11 @@ def save_string_to_file(text, directory, filename):
 # Definirajte funkcijo, ki prenese glavno stran in jo shrani v datoteko.
 
 
-def save_frontpage(TODO):
+def save_frontpage(cats_frontpage_url, frontpage_filename):
     '''Save "cats_frontpage_url" to the file
     "cat_directory"/"frontpage_filename"'''
+    x = download_url_to_string(cats_frontpage_url)
+    save_string_to_file(x, cat_directory, frontpage_filename)
     return TODO
 
 ###############################################################################
