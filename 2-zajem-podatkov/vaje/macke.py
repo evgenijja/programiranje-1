@@ -1,5 +1,4 @@
 import requests
-import sys
 import re
 import os
 import csv
@@ -13,25 +12,23 @@ cats_frontpage_url = 'http://www.bolha.com/zivali/male-zivali/macke'
 # mapa, v katero bomo shranili podatke
 cat_directory = 'my_cats'
 # ime datoteke v katero bomo shranili glavno stran
-frontpage_filename = 'cats_fp.html'
+frontpage_filename = "cats_fp.html"
 # ime CSV datoteke v katero bomo shranili podatke
-csv_filename = 'cats.csv'
+csv_filename = "cats.csv"
 
 def download_url_to_string(url):
     '''This function takes a URL as argument and tries to download it
     using requests. Upon success, it returns the page contents as string.'''
     try:
         # del kode, ki morda sproži napako
-        print('Shranjujem {} ...'.format(url), end='')
-        sys.stdout.flush()
         r = requests.get(url)
-        return r
     except requests.exceptions.ConnectionError:
-        print('stran ne obstaja!')
         # koda, ki se izvede pri napaki
         # dovolj je če izpišemo opozorilo in prekinemo izvajanje funkcije
+        print('download failed')
+        return None
     # nadaljujemo s kodo če ni prišlo do napake
-    return r
+    return r.text
 
 
 def save_string_to_file(text, directory, filename):
@@ -46,12 +43,11 @@ def save_string_to_file(text, directory, filename):
 
 # Definirajte funkcijo, ki prenese glavno stran in jo shrani v datoteko.
 
-def save_frontpage():
+
+def save_frontpage(TODO):
     '''Save "cats_frontpage_url" to the file
     "cat_directory"/"frontpage_filename"'''
-    x = download_url_to_string(cats_frontpage_url)
-    save_string_to_file(x.text, cat_directory, frontpage_filename)
-    return 'ratalu'
+    return TODO
 
 ###############################################################################
 # Po pridobitvi podatkov jih želimo obdelati.
@@ -60,9 +56,7 @@ def save_frontpage():
 
 def read_file_to_string(directory, filename):
     '''Return the contents of the file "directory"/"filename" as a string.'''
-    path = os.path.join(directory, filename)
-    with open(path, encoding='utf-8') as d:
-        return d.read()
+    return TODO
 
 # Definirajte funkcijo, ki sprejme niz, ki predstavlja vsebino spletne strani,
 # in ga razdeli na dele, kjer vsak del predstavlja en oglas. To storite s
