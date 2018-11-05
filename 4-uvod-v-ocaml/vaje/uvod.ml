@@ -9,7 +9,12 @@
  - : int = 3
 [*----------------------------------------------------------------------------*)
 
-let rec penultimate_element = ()
+let rec penultimate_element xs =
+  match xs with
+  | [] -> failwith ":("
+  | x :: _last :: [] -> x
+  | x :: xs -> penultimate_element xs
+
 
 (*----------------------------------------------------------------------------*]
  Funkcija [get k list] poišče [k]-ti element v seznamu [list]. Številčenje
@@ -20,7 +25,18 @@ let rec penultimate_element = ()
  - : int = 1
 [*----------------------------------------------------------------------------*)
 
-let rec get = ()
+let rec get k xs =
+  match xs with
+  | [] -> failwith ":("
+  | x :: xs ->
+    if k <= 0 then
+      x
+    else
+      get (k-1) xs
+
+
+
+ 
 
 (*----------------------------------------------------------------------------*]
  Funkcija [double] podvoji pojavitve elementov v seznamu.
@@ -29,7 +45,10 @@ let rec get = ()
  - : int list = [1; 1; 2; 2; 3; 3]
 [*----------------------------------------------------------------------------*)
 
-let rec double = ()
+let rec double xs =
+  match xs with
+  | [] -> xs
+  | x :: xs -> x :: x :: double xs
 
 (*----------------------------------------------------------------------------*]
  Funkcija [divide k list] seznam razdeli na dva seznama. Prvi vsebuje prvih [k]
@@ -42,7 +61,15 @@ let rec double = ()
  - : int list * int list = ([1; 2; 3; 4; 5], [])
 [*----------------------------------------------------------------------------*)
 
-let rec divide = ()
+let rec divide k xs =
+  if k = 0 then [], xs
+  else
+  match xs with
+  | [] -> ([], [])
+  | x :: xs ->
+    let (l, r) = divide (k-1) xs in
+    (x :: l, r)
+   
 
 (*----------------------------------------------------------------------------*]
  Funkcija [delete k list] iz seznama izbriše [k]-ti element. V primeru
@@ -52,7 +79,21 @@ let rec divide = ()
  - : int list = [0; 0; 0; 0; 0]
 [*----------------------------------------------------------------------------*)
 
-let rec delete = ()
+let rec delete k xs =
+  match xs with
+  | [] -> []
+  | x :: xs ->
+    if k = 1 then xs
+    else x :: delete (k-1) xs
+
+let rec divide k xs =
+  match xs with
+  | [] -> ([]; [])
+  | x :: xs ->
+    if k == 1 then 
+      (x :: []; xs)
+    else
+      x :: divide (k-1) xs
 
 (*----------------------------------------------------------------------------*]
  Funkcija [slice i k list] sestavi nov seznam, ki vsebuje elemente seznama
