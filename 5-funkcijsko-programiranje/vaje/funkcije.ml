@@ -4,10 +4,14 @@
 Namig: Definirajte pomožno funkcijo za obračanje seznamov.
 [*----------------------------------------------------------------------------*)
 
+(*more bit repno rekurzivna če ne je ne smeš uporablat 
+v repno rekurzivnih funkcijah*)
 let rec reverse xs =
-  match xs with
-  | [] -> []
-  | xs :: x ->
+  let rec reverse' acc = function
+  | [] -> acc
+  | head :: tail -> reverse' (head :: acc) tail
+  in
+reverse' [] xs
 
 (*----------------------------------------------------------------------------*]
  Funkcija [repeat x n] vrne seznam [n] ponovitev vrednosti [x]. Za neprimerne
@@ -74,7 +78,10 @@ let rec range2 n =
  - : int list = [2; 3; 4; 5; 6]
 [*----------------------------------------------------------------------------*)
 
-let rec map = ()
+let rec map f = function
+| [] -> []
+| x :: xs -> f x :: map f xs
+
 
 (*----------------------------------------------------------------------------*]
  Funkcija [map_tlrec] je repno rekurzivna različica funkcije [map].
@@ -84,7 +91,20 @@ let rec map = ()
  - : int list = [2; 3; 4; 5; 6]
 [*----------------------------------------------------------------------------*)
 
-let rec map_tlrec = ()
+(*tu ne dela ): *)
+
+let plus_two = (fun x -> x+2)
+
+let rec map_tlrec f xs = 
+  let rec map_tlrec' f acc = function
+  | [] -> acc
+  | x :: xs -> 
+    let new_acc = f x :: acc in
+    map_tlrec' f xs new_acc
+  in
+  map_tlrec' f []
+
+
 
 (*----------------------------------------------------------------------------*]
  Funkcija [mapi] sprejme seznam in funkcijo dveh argumentov ter vrne seznam
@@ -95,7 +115,17 @@ let rec map_tlrec = ()
  - : int list = [0; 1; 2; 5; 6; 7]
 [*----------------------------------------------------------------------------*)
 
-let rec mapi = ()
+
+let rec mapi f xs =
+  let rec mapi' f xs acc = 
+  match xs with
+  | [] -> acc
+  | x :: xs ->
+    let new_acc = f x (List.length acc) :: acc in
+    mapi' f xs new_acc
+  in
+  mapi' f xs []
+
 
 (*----------------------------------------------------------------------------*]
  Funkcija [zip] sprejme dva seznama in vrne seznam parov istoležnih
@@ -107,7 +137,14 @@ let rec mapi = ()
  Exception: Failure "Different lengths of input lists.".
 [*----------------------------------------------------------------------------*)
 
-let rec zip = ()
+let rec zip xs1 xs2 =
+  if List.length xs1 <> List.length xs2 
+  failwith ":("
+  else
+  let rec zip' xs1 xs2 acc =
+    match xs1 with
+    | [] -> [] 
+    | x :: xs ->
 
 (*----------------------------------------------------------------------------*]
  Funkcija [zip_enum_tlrec] sprejme seznama [x_0; x_1; ...] in [y_0; y_1; ...]
