@@ -212,6 +212,15 @@ let succ bst =
  Node (Node (Empty, 6, Empty), 11, Empty))
 [*----------------------------------------------------------------------------*)
 
+let rec delete x bst = function
+| Empty -> Empty
+| (Node (a, left, right)) as t ->
+    if x < a then Node (a, delete x left, right) else
+    if x > a then Node (a, left, delete x right) else
+    match succ t with
+    | None -> left
+    | Some s -> let r_without_s = delete s right in
+        Node (s, left, r_without_s)
 
 (*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*]
  SLOVARJI
@@ -223,6 +232,7 @@ let succ bst =
  strukturo glede na ključe. Ker slovar potrebuje parameter za tip ključa in tip
  vrednosti, ga parametriziramo kot [('key, 'value) dict].
 [*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*)
+
 
 
 (*----------------------------------------------------------------------------*]
