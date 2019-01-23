@@ -6,12 +6,13 @@ Namig: Definirajte pomožno funkcijo za obračanje seznamov.
 
 (*more bit repno rekurzivna če ne je ne smeš uporablat 
 v repno rekurzivnih funkcijah*)
-let rec reverse xs =
-  let rec reverse' acc = function
+
+let rec obrni xs =
+  let rec obrni' acc = function
   | [] -> acc
-  | head :: tail -> reverse' (head :: acc) tail
-  in
-reverse' [] xs
+  | x :: xs -> obrni' (x :: acc) xs
+  in 
+  obrni' [] xs
 
 (*----------------------------------------------------------------------------*]
  Funkcija [repeat x n] vrne seznam [n] ponovitev vrednosti [x]. Za neprimerne
@@ -27,7 +28,17 @@ let rec repeat x n =
   if n <= 0 then
    []
   else
-   x :: repeat x (n - 1)
+  x :: repeat x (n - 1)
+
+
+
+(*tale ponovi usako št s seznama*)
+let rec repeat xs = 
+  let rec repeat' acc = function
+  | [] -> acc
+  | x :: xs -> repeat' (acc @ [x] @ [x]) xs
+  in 
+  repeat' [] xs
 
 (*pazi katera funkcija je tail recursive!!*)
 
@@ -36,8 +47,7 @@ let rec repeat2  x n =
     if n <= 0 then
       acc
     else
-      let new_acc = x :: acc in
-      repeat2' x (n - 1) new_acc
+      repeat2' x (n - 1) (x :: acc)
   in
   repeat2' x n []
 
@@ -82,6 +92,14 @@ let rec map f = function
 | [] -> []
 | x :: xs -> f x :: map f xs
 
+let rec tlrc_map f xs =
+  let rec map' f xs acc =
+    match xs with
+    | [] -> acc
+    | x :: xs -> map' f xs (acc @ [f x])
+  in
+  map' f xs []
+
 
 (*----------------------------------------------------------------------------*]
  Funkcija [map_tlrec] je repno rekurzivna različica funkcije [map].
@@ -121,10 +139,18 @@ let rec mapi f xs =
   match xs with
   | [] -> acc
   | x :: xs ->
-    let new_acc = f x (List.length acc) :: acc in
+    let new_acc = (f x (List.length acc)) :: acc in
     mapi' f xs new_acc
   in
   mapi' f xs []
+
+  let mapi f list =
+    let rec mapi_aux list i =
+      match list with
+      | [] -> []
+      | x :: xs -> (f i x) :: (mapi_aux xs (i + 1))
+    in
+  mapi_aux list 0
 
 
 (*----------------------------------------------------------------------------*]
@@ -186,7 +212,11 @@ let rec unzip_tlrec = ()
  - : string = "FICUS"
 [*----------------------------------------------------------------------------*)
 
-let rec fold_left_no_acc = ()
+
+let rec fold_left_no_acc f = function
+  | [] | _ :: [] -> failwith "List too short."
+  | x :: y :: [] -> f x y
+| x :: y :: tl -> fold_left_no_acc f ((f x y) :: tl)
 
 (*----------------------------------------------------------------------------*]
  Funkcija [apply_sequence f x n] vrne seznam zaporednih uporab funkcije [f] na
@@ -200,7 +230,20 @@ let rec fold_left_no_acc = ()
  - : int list = []
 [*----------------------------------------------------------------------------*)
 
-let rec apply_sequence = ()
+let rec apply_sequence f x n =
+  let rec seq' f x n acc = 
+    match xs with
+    | [] -> acc
+    | x :: xs -> f x :: acc 
+
+    let apply_sequence f x n =
+      let rec apply_aux f x n acc =
+        if n < 0 then
+          reverse acc
+        else
+          apply_aux f (f x) (n - 1) (x :: acc)
+      in
+    apply_aux f x n []
 
 (*----------------------------------------------------------------------------*]
  Funkcija [filter f list] vrne seznam elementov [list], pri katerih funkcija [f]
@@ -223,7 +266,13 @@ let rec filter = ()
  - : bool = false
 [*----------------------------------------------------------------------------*)
 
-let rec exists = ()
+let rec exists f xs =
+  let rec exists' f xs acc =
+    match xs with
+    | [] -> false
+    | x :: xs -> if f x then true else exists' f xs acc
+  in 
+  exists' f xs []
 
 (*----------------------------------------------------------------------------*]
  Funkcija [first f default list] vrne prvi element seznama, za katerega
@@ -236,4 +285,9 @@ let rec exists = ()
  - : int = 0
 [*----------------------------------------------------------------------------*)
 
-let rec first = ()
+let rec first f default = function
+| [] -> default
+| x :: xs -> if f x then x else first default xs
+
+
+

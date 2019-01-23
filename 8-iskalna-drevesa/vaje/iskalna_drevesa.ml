@@ -22,6 +22,10 @@ type 'a tree =
     | Empty
     | Node of 'a * 'a tree * 'a tree
 
+let leaf x = Node(x, Empty, Empty)
+let test_tree = 
+    Node (5, Node (2, leaf 0, Empty), Node (7, leaf 6, leaf 11))
+
 let leaf x = Node (x, Empty, Empty)
 let test_tree =
     let left = Node (2, leaf 0, Empty)
@@ -42,6 +46,8 @@ let test_tree =
  Node (Node (Node (Empty, 11, Empty), 7, Node (Empty, 6, Empty)), 5,
  Node (Empty, 2, Node (Empty, 0, Empty)))
 [*----------------------------------------------------------------------------*)
+
+
 let rec mirror = function
     | Empty -> Empty
     | Node (x, left, right) -> 
@@ -82,15 +88,33 @@ let rec height = function
  Node (Node (Node (Empty, false, Empty), false, Empty), true,
  Node (Node (Empty, true, Empty), true, Node (Empty, true, Empty)))
 [*----------------------------------------------------------------------------*)
+type 'a tree =
+| Empty
+| Node of 'a * 'a tree * 'a tree
+
+let leaf x = Node(x, Empty, Empty)
+let test_tree = 
+Node (5, Node (2, leaf 0, Empty), Node (7, leaf 6, leaf 11))
+
+let leaf x = Node (x, Empty, Empty)
+let test_tree =
+let left = Node (2, leaf 0, Empty)
+and right = Node (7, leaf 6, leaf 11)
+in
+Node (5, left, right)
+
+let rec map_tree f = function
+| Empty -> Empty
+| Node (x, l, r) -> Node (f x, map_tree f l, map_tree f r) 
 
 let rec map_tree f = function
 | Empty -> Empty
 | Node (x, l, r) -> 
-        let l = map_tree f l
-        and r = map_tree f r
-        and x = f x
-        in
-        Node (x, l, r)
+    let l = map_tree f l
+    and r = map_tree f r
+    and x = f x
+    in
+    Node (x, l, r)
 
 (*----------------------------------------------------------------------------*]
  Funkcija [list_of_tree] pretvori drevo v seznam. Vrstni red podatkov v seznamu
@@ -99,6 +123,7 @@ let rec map_tree f = function
  # list_of_tree test_tree;;
  - : int list = [0; 2; 5; 6; 7; 11]
 [*----------------------------------------------------------------------------*)
+
 
 let rec list_of_tree = function
 | Empty -> []
