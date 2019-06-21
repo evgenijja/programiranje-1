@@ -52,7 +52,11 @@ module type NAT = sig
   type t
 
   val eq   : t -> t -> bool
-  val zero : t
+  val zero : t -> int 
+  val one : t -> int 
+  val add : t -> t -> t
+  val subs : t -> t -> t 
+end
   (* Dodajte manjkajoče! *)
   (* val to_int : t -> int *)
   (* val of_int : int -> t *)
@@ -90,7 +94,14 @@ end
 
 module Nat_peano : NAT = struct
 
-  type t = unit (* To morate spremeniti! *)
+  type t = 
+    | Zero
+    | S of t 
+
+  let sub x y = function
+  
+  
+  
   let eq x y = failwith "later"
   let zero = () (* To morate spremeniti! *)
   (* Dodajte manjkajoče! *)
@@ -118,7 +129,9 @@ end
  - : int = 4950
 [*----------------------------------------------------------------------------*)
 
-let sum_nat_100 (module Nat : NAT) = ()
+let sum_nat_100 = function
+  | Zero
+
 
 (*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*]
  Now we follow the fable told by John Reynolds in the introduction.

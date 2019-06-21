@@ -8,7 +8,8 @@ from functools import lru_cache
 # rezultat [2, 3, 4, 4, 6, 7, 8, 9].
 ###############################################################################
 
-
+def kvadriraj(x):
+    return x * x
 def najdaljse_narascajoce_podzaporedje(sez):
     return None
 
