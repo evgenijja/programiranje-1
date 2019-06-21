@@ -31,7 +31,9 @@ let rec get = ()
  - : int list = [1; 1; 2; 2; 3; 3]
 [*----------------------------------------------------------------------------*)
 
-let rec double = ()
+let rec double = function
+| [] -> []
+| x :: xs -> x :: x :: double xs
 
 (*----------------------------------------------------------------------------*]
  The function [divide k list] divides the list into a pair of lists. The first
