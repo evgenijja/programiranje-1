@@ -1,6 +1,13 @@
 (*tale strn omg*)
 https://caml.inria.fr/pub/docs/manual-ocaml/libref/Pervasives.html
 
+
+
+
+
+
+
+
 (*kaku pokazat da je seznam prazen al pa samu 1 doug al pa 2 al pa 2 + tail*)
   | [] | _ :: [] -> failwith "List too short."
   | x :: y :: [] -> f x y
