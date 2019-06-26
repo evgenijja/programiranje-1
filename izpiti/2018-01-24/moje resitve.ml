@@ -46,6 +46,7 @@ let rec preveri drevo =
 
 type vektor = int * int 
 type matrika = int * int * int * int 
+
 module type Linearna = sig
   type then
   val id : then
@@ -55,4 +56,36 @@ module type Linearna = sig
   val kompozitum : t -> t -> t 
 
 module Matrika : Linearna = struct
-  type t = 
+  type t = matrika
+  let id = 
+
+let razlika_kvadratov x y = (x + y) * (x + y) - (x * x + y * y)
+
+let uporabi_na_paru f (a, b) = (f a, f b)
+
+let rec ponovi_seznam n sez =
+  if n <= 0 then [] else sez @ ponovi_seznam (n - 1) sez
+
+  let razdeli seznam =
+    let rec razdeli' acc1 acc2 = function
+    | [] -> (acc1, acc2)
+    | x :: xs when x < 0 -> razdeli' (x :: acc1) acc2 xs
+    | x :: xs when x >= 0 -> razdeli' acc1 (x :: acc2) xs
+    in
+    razdeli' [] [] seznam
+    
+  type drevo =
+    | Empty
+    | Node of drevo * int * drevo
+
+let leaf x = Node(Empty, x, Empty)
+
+let test_tree = Node( Node (leaf 3, 10, Node(leaf 14, 13, leaf 6)), 11, Node(leaf 2, 8, leaf 10))
+
+let monotona_pot drevo =
+  match drevo with
+  | Empty -> []
+  | Node(left, x, rigth) when left = Empty -> 
+    match right with
+    | Node(l, y, r)
+

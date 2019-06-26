@@ -176,21 +176,9 @@ let rec intbool_separate ib_list =
  [specialisation], ki loči med temi zaposlitvami.
 [*----------------------------------------------------------------------------*)
 
-<<<<<<< HEAD
-type magic =
-  | Ogenj
-  | Led
-  | Arkana
-
-type specialisation =
-  | Historian
-  | Teacher
-  | Researcher
-=======
 type magic = Fire | Frost | Arcane
 
 type specialisation = Historian | Teacher | Researcher
->>>>>>> d51c008feea0280026afd13c8e7055619866cb44
 
 (*----------------------------------------------------------------------------*]
  Vsak od čarodejev začne kot začetnik, nato na neki točki postane študent,
@@ -209,11 +197,6 @@ type specialisation = Historian | Teacher | Researcher
  	
 type status = Newbie | Student of magic * int | Employed of magic * specialisation
 
-<<<<<<< HEAD
-type wizard = {name = string; status : status}
-
-let professor = {name = "Matija", status : Emplyed (Fire, Teacher)}
-=======
 type status =
   | Newbie
   | Student of magic * int
@@ -222,7 +205,6 @@ type status =
 type wizard = {name : string; status : status}
 
 let professor = {name = "Matija"; status = Employed(Fire, Teacher)}
->>>>>>> d51c008feea0280026afd13c8e7055619866cb44
 
 (*----------------------------------------------------------------------------*]
  Želimo prešteti koliko uporabnikov posamezne od vrst magije imamo na akademiji.
@@ -234,12 +216,6 @@ let professor = {name = "Matija"; status = Employed(Fire, Teacher)}
  # update {fire = 1; frost = 1; arcane = 1} Arcane;;
  - : magic_counter = {fire = 1; frost = 1; arcane = 2}
 [*----------------------------------------------------------------------------*)
-type magic_counter = {fire = int; frost = int, arcane = int}
-
-let update counter = function
-| Arcane -> {counter with arcane =counter.arcane + 1}
-| Fire -> {counter with fire = counter.fire +1}
-| Frost -> {counter with frost = counter.frost +1}
 
 type magic_counter = {fire : int; frost : int; arcane : int}
 
@@ -256,7 +232,6 @@ let update counter = function
  - : magic_counter = {fire = 3; frost = 0; arcane = 0}
 [*----------------------------------------------------------------------------*)
 
-<<<<<<< HEAD
 let rec count_magic wizards =
   let rec count_aux counter = function
   | [] -> counter
@@ -269,7 +244,7 @@ let rec count_magic wizards =
     end
   in
   count_aux { fire = 0; frost = 0, arcane = 0} wizards 
-=======
+
 let count_magic wizard_list =
   let rec count counter = function
     | [] -> counter
@@ -279,7 +254,6 @@ let count_magic wizard_list =
         | Student (magic, _) -> count (update counter magic) wizards
         | Employed (magic, _) -> count (update counter magic) wizards)
   in count {fire = 0; frost = 0; arcane = 0} wizard_list
->>>>>>> d51c008feea0280026afd13c8e7055619866cb44
 
 (*----------------------------------------------------------------------------*]
  Želimo poiskati primernega kandidata za delovni razpis. Študent lahko postane

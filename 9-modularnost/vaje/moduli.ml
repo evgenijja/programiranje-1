@@ -52,16 +52,6 @@ module type NAT = sig
   type t
 
   val eq   : t -> t -> bool
-<<<<<<< HEAD
-  val zero : t -> int 
-  val one : t -> int 
-  val add : t -> t -> t
-  val subs : t -> t -> t 
-end
-  (* Dodajte manjkajoče! *)
-  (* val to_int : t -> int *)
-  (* val of_int : int -> t *)
-=======
   val zero : t
   val one  : t
   val add  : t -> t -> t
@@ -69,7 +59,6 @@ end
   val mul  : t -> t -> t
   val from_int : int -> t
   val to_int   : t -> int
->>>>>>> d51c008feea0280026afd13c8e7055619866cb44
 end
 
 (*----------------------------------------------------------------------------*]
@@ -109,19 +98,6 @@ end
 
 module Nat_peano : NAT = struct
 
-<<<<<<< HEAD
-  type t = 
-    | Zero
-    | S of t 
-
-  let sub x y = function
-  
-  
-  
-  let eq x y = failwith "later"
-  let zero = () (* To morate spremeniti! *)
-  (* Dodajte manjkajoče! *)
-=======
   type t = Zero | S of t
 
   let rec eq x y =
@@ -157,7 +133,6 @@ module Nat_peano : NAT = struct
   let rec to_int = function
     | Zero -> 0
     | S n -> 1 + (to_int n)
->>>>>>> d51c008feea0280026afd13c8e7055619866cb44
 
 end
 
@@ -182,10 +157,6 @@ end
  - : int = 4950
 [*----------------------------------------------------------------------------*)
 
-<<<<<<< HEAD
-let sum_nat_100 = function
-  | Zero
-=======
 let sum_nat_100 (module Nat : NAT) =
   let hundred = Nat.from_int 100 in
   let rec sum current acc =
@@ -195,7 +166,6 @@ let sum_nat_100 (module Nat : NAT) =
       sum (Nat.add current Nat.one) (Nat.add acc current)
   in
   sum Nat.zero Nat.zero |> Nat.to_int
->>>>>>> d51c008feea0280026afd13c8e7055619866cb44
 
 
 (*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*]

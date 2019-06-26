@@ -99,26 +99,14 @@ type 'a tree =
       0   6   11
 [*----------------------------------------------------------------------------*)
 
-<<<<<<< HEAD
 type 'a tree =
     | Empty
-    | Node of 'a * 'a tree * 'a tree
+    | Node of 'a tree * 'a * 'a tree
 
-let leaf x = Node(x, Empty, Empty)
-let test_tree = 
-    Node (5, Node (2, leaf 0, Empty), Node (7, leaf 6, leaf 11))
 
-let leaf x = Node (x, Empty, Empty)
-let test_tree =
-    let left = Node (2, leaf 0, Empty)
-    and right = Node (7, leaf 6, leaf 11)
-    in
-    Node (5, left, right)
-=======
 let leaf x = Node(Empty, x, Empty) 
 
 let test_tree = Node( Node(leaf 0, 2, Empty), 5, Node(leaf 6, 7, leaf 11))
->>>>>>> d51c008feea0280026afd13c8e7055619866cb44
 
 (*----------------------------------------------------------------------------*]
  Funkcija [mirror] vrne prezrcaljeno drevo. Na primeru [test_tree] torej vrne
@@ -138,11 +126,6 @@ let rec mirror = function
   | Empty -> Empty
   | Node(l, x, r) -> Node(mirror r, x, mirror l)
 
-let rec mirror = function
-    | Empty -> Empty
-    | Node (x, left, right) -> 
-        Node (x, mirror right, mirror left)
-
 let rec mirror' = function
     | Empty -> Empty
     | Node (x, left, right) ->
@@ -161,15 +144,6 @@ let rec mirror' = function
  - : int = 6
 [*----------------------------------------------------------------------------*)
 
-<<<<<<< HEAD
-let rec size = function
-| Empty -> 0
-| Node (x, left, right) -> 1 + size left + size right
-
-let rec height = function
-| Empty -> 0
-| Node (_, left, right) -> 1 + height left 
-=======
 let rec height = function
   | Empty -> 0
   | Node(l, _, r) -> 1 + max (height l) (height r)
@@ -177,7 +151,6 @@ let rec height = function
 let rec size = function
   | Empty -> 0
   | Node(l, _, r) -> 1 + (size l) + (size r)
->>>>>>> d51c008feea0280026afd13c8e7055619866cb44
 
 (*----------------------------------------------------------------------------*]
  Funkcija [map_tree f tree] preslika drevo v novo drevo, ki vsebuje podatke
@@ -188,25 +161,6 @@ let rec size = function
  Node (Node (Node (Empty, false, Empty), false, Empty), true,
  Node (Node (Empty, true, Empty), true, Node (Empty, true, Empty)))
 [*----------------------------------------------------------------------------*)
-<<<<<<< HEAD
-type 'a tree =
-| Empty
-| Node of 'a * 'a tree * 'a tree
-
-let leaf x = Node(x, Empty, Empty)
-let test_tree = 
-Node (5, Node (2, leaf 0, Empty), Node (7, leaf 6, leaf 11))
-
-let leaf x = Node (x, Empty, Empty)
-let test_tree =
-let left = Node (2, leaf 0, Empty)
-and right = Node (7, leaf 6, leaf 11)
-in
-Node (5, left, right)
-
-let rec map_tree f = function
-| Empty -> Empty
-| Node (x, l, r) -> Node (f x, map_tree f l, map_tree f r) 
 
 let rec map_tree f = function
 | Empty -> Empty
@@ -216,12 +170,10 @@ let rec map_tree f = function
     and x = f x
     in
     Node (x, l, r)
-=======
 
 let rec map_tree f = function
   | Empty -> Empty
   | Node(l, x, r) -> Node(map_tree f l, f x, map_tree f r)
->>>>>>> d51c008feea0280026afd13c8e7055619866cb44
 
 (*----------------------------------------------------------------------------*]
  Funkcija [list_of_tree] pretvori drevo v seznam. Vrstni red podatkov v seznamu
@@ -253,25 +205,11 @@ let rec list_of_tree = function
  - : bool = false
 [*----------------------------------------------------------------------------*)
 
-<<<<<<< HEAD
-let rec is_sorted = function
-| [] -> true
-| x :: (y :: ys) -> x <= y && is_sorted ys
-
-
-
-let rec is_bst = function
-| Empty -> true
-| Node (x, left, right) ->
-    let list = list_of_tree in is_sorted list
-    
-=======
 let rec is_bst t =
   let rec list_is_ordered = function
     | [] | _ :: [] -> true
     | x :: y :: tl -> if x <= y then list_is_ordered (y :: tl) else false
   in t |> list_of_tree |> list_is_ordered
->>>>>>> d51c008feea0280026afd13c8e7055619866cb44
 
 (*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*]
  V nadaljevanju predpostavljamo, da imajo dvojiška drevesa strukturo BST.
@@ -287,16 +225,6 @@ let rec is_bst t =
  - : bool = false
 [*----------------------------------------------------------------------------*)
 
-<<<<<<< HEAD
-let rec insert n = function
-| Empty -> Node (n, Empty, Empty)
-| Node (x, left, right) when n < x -> Node (x, insert n left, right)
-| Node (x, left, right) when n > x -> Node (x, left, insert n right)
-| Node (x, left, right) as t when n = x -> t
-| Node _ -> failwith ":(" 
-
-
-=======
 let rec insert x = function
   | Empty -> leaf x
   | Node(l, y, r) when x = y -> Node(l, y, r)
@@ -308,7 +236,6 @@ let rec member x = function
   | Node(l, y, r) when x = y -> true
   | Node(l, y, r) when x < y -> member x l
   | Node(l, y, r) (* when x > y *) -> member x r
->>>>>>> d51c008feea0280026afd13c8e7055619866cb44
 
 let rec memeber n = function
 | Empty -> false
@@ -327,13 +254,8 @@ let rec memeber n = function
 [*----------------------------------------------------------------------------*)
 
 let rec member2 x = function
-<<<<<<< HEAD
-| Empty -> false
-| Node (y, l, r) -> x = y || (member2 x l) || (member2 x r)
-=======
   | Empty -> false
   | Node(l, y, r) -> x = y || (member2 x l) || (member2 x r)
->>>>>>> d51c008feea0280026afd13c8e7055619866cb44
 
 (*----------------------------------------------------------------------------*]
  Funkcija [succ] vrne naslednjika korena danega drevesa, če obstaja. Za drevo
@@ -349,19 +271,6 @@ let rec member2 x = function
 [*----------------------------------------------------------------------------*)
 
 let succ bst =
-<<<<<<< HEAD
-    let rec min = function
-    | Empty -> None
-    | Node (x, Empty, r) -> Some x
-    | Node (_, l, _) -> min l
-    in
-    match bst with
-    | Empty -> None
-    | Node (_, _, r) -> min r
-         
-
-
-=======
   let rec minimal = function
     | Empty -> None
     | Node(Empty, x, _) -> Some x
@@ -380,7 +289,6 @@ let pred bst =
   match bst with
   | Empty -> None
   | Node(l, _, _) -> maximal l
->>>>>>> d51c008feea0280026afd13c8e7055619866cb44
 
 (*----------------------------------------------------------------------------*]
  Na predavanjih ste omenili dva načina brisanja elementov iz drevesa. Prvi 
@@ -395,17 +303,6 @@ let pred bst =
  Node (Node (Empty, 6, Empty), 11, Empty))
 [*----------------------------------------------------------------------------*)
 
-<<<<<<< HEAD
-let rec delete x bst = function
-| Empty -> Empty
-| (Node (a, left, right)) as t ->
-    if x < a then Node (a, delete x left, right) else
-    if x > a then Node (a, left, delete x right) else
-    match succ t with
-    | None -> left
-    | Some s -> let r_without_s = delete s right in
-        Node (s, left, r_without_s)
-=======
 let rec delete x = function
   | Empty -> Empty
   | Node(l, y, r) when x > y -> Node(l, y, delete x r)
@@ -417,7 +314,6 @@ let rec delete x = function
       | Some s ->
         let clean_r = delete s r in
         Node(l, s, clean_r))
->>>>>>> d51c008feea0280026afd13c8e7055619866cb44
 
 (*-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=*]
  SLOVARJI
